@@ -40,7 +40,7 @@ Inserting sub documents
 		"description" : "Apple reported fourth quarter earnings today, Wall Street reacted positively.",
 		"tags" : [ "AAPL", "Earnings", "Business" ],
 		"author" : {
-			"name" : "Jason Zucchett",
+			"name" : "Jason Zucchetto",
 			"title" : "Lead Editor"
 		} 
 	})
@@ -182,7 +182,7 @@ $not
 
 ::
 
-	db.people.find({ "age" : { $not : [5, 10, 34, 45] }})	
+	db.people.find({ "age" : { $not : { $gt : 5 } }})	
 
 
 $or 
@@ -221,7 +221,7 @@ Insert some sample data
 		"parents" : { 
 			"father" : "Ned", 
 			"mother" : "Maude Flanders", 
-			"residence" : "Springfield""
+			"residence" : "Springfield"
 		} })
 
 ::
@@ -276,7 +276,7 @@ Update first document
 
 ::
 
-	db.people.update({ "name" : "Lisa" }, { $set : { "instrument" : "Saxophone"})
+	db.people.update({ "name" : "Lisa" }, { $set : { "instrument" : "Saxophone"}})
 
 Update all documents
 ^^^^^^^^^^^^^^^^^^^^
@@ -298,7 +298,7 @@ $inc (incrementing a counter)
 
 ::
 
-	db.people.update({ "name" : "Lisa" }, { $set : { "friends" : 10})
+	db.people.update({ "name" : "Lisa" }, { $set : { "friends" : 10}})
 
 
 ::
@@ -336,7 +336,7 @@ $rename (rename a field within a document)
 
 ::
 
-	db.stuff.update({ "name" : "Bart" }, { $rename : { "age" : "my_new_age" }});
+	db.people.update({ "name" : "Bart" }, { $rename : { "age" : "my_new_age" }});
 
 
 Updating Arrays in Documents
@@ -351,7 +351,7 @@ $push (add value to array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $push: { tags : "Toothpaste" }}
+	db.places.insert({ "name" : "Quickie Mart" }, { $push: { tags : "Toothpaste" }})
 
 
 $pushAll (add multiple values to array)
@@ -359,7 +359,7 @@ $pushAll (add multiple values to array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pushAll: { tags : ["Milk", "Eggs"] }}
+	db.places.insert({ "name" : "Quickie Mart" }, { $pushAll: { tags : ["Milk", "Eggs"] }})
 	
 
 
@@ -368,7 +368,7 @@ $pull (remove value from array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pull: { tags : "Toothpaste" }}
+	db.places.insert({ "name" : "Quickie Mart" }, { $pull: { tags : "Toothpaste" }})
 	
 
 $pullAll (remove all values from array)
@@ -376,7 +376,7 @@ $pullAll (remove all values from array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pullAll: { tags : ["Milk", "Eggs"] }}
+	db.places.insert({ "name" : "Quickie Mart" }, { $pullAll: { tags : ["Milk", "Eggs"] }})
 	
 
 
@@ -385,11 +385,11 @@ $pop (remove element from beginning or end of array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pop: { tags : 1 }}
+	db.places.insert({ "name" : "Quickie Mart" }, { $pop: { tags : 1 }})
 	
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pop: { tags : -1 }}
+	db.places.insert({ "name" : "Quickie Mart" }, { $pop: { tags : -1 }})
 	
 
 
@@ -398,11 +398,11 @@ $addToSet (add only if value is not already in array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Toothpaste" }}
+	db.places.insert({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Toothpaste" }})
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Candy" }}
+	db.places.insert({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Candy" }})
 
 
 Creating an Index
@@ -428,18 +428,18 @@ Create unique index
 
 ::
 
-	db.people.ensureIndex({ instrument : 1}, {unique : true});
+	db.people.ensureIndex({ instrument : 1}, {unique : true})
 
 ::
 
-	db.people.ensureIndex({ instrument : 1}, {unique : true, dropDups: true });
+	db.people.ensureIndex({ instrument : 1}, {unique : true, dropDups: true })
 
 Create sparse index
 ^^^^^^^^^^^^^^^^^^^
 
 ::
 
-	db.people.ensureIndex({ city : 1}, {sparse : true, background: true});
+	db.people.ensureIndex({ city : 1}, {sparse : true, background: true})
 
 
 Create background index
@@ -447,7 +447,7 @@ Create background index
 
 ::
 
-	db.people.ensureIndex({ city : 1}, {background: true});
+	db.people.ensureIndex({ city : 1}, {background: true})
 
 
 TTL index (delete document after a certain amount of time)
@@ -455,7 +455,7 @@ TTL index (delete document after a certain amount of time)
 
 ::
 
-	db.people.ensureIndex({ date_created : 1}, { expireAfterSeconds: 3600 });	
+	db.people.ensureIndex({ date_created : 1}, { expireAfterSeconds: 3600 })	
 
 Geospatial index
 ^^^^^^^^^^^^^^^^
