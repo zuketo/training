@@ -416,6 +416,22 @@ $addToSet (add only if value is not already in array)
 	db.places.update({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Candy" }})
 
 
+Removing Documents
+------------------
+
+::
+	
+	db.places.remove({ "name" : "Moe's Tavern" })
+
+
+Just remove one object
+^^^^^^^^^^^^^^^^^^^^^^
+
+::
+	
+	db.places.remove({ "name" : "Moe's Tavern" }, 1)
+
+
 Creating an Index
 -----------------
 
