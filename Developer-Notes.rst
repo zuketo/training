@@ -471,18 +471,21 @@ Geospatial index
 	db.locations.insert({name : "Cupertino", lat_long : [37.322998,-122.032182]})
 	db.locations.insert({name : "San Jose", lat_long : [37.339386,-121.894955]})
 	db.locations.insert({name : "San Francisco", lat_long : [37.77493,-122.419415]})
-	db.locations.insert({name : "Los Angeles", lat_long : [34.052234,-118.243685]});
+	db.locations.insert({name : "Los Angeles", lat_long : [34.052234,-118.243685]})
 	db.locations.insert({name : "Washington, DC", lat_long : [38.895112,-77.036366]})
 
 ::
 
-	db.places.find({lat_long: {$near : [37.441883,-122.143019] }}) // find closest locations
+	// find closest locations
+	db.places.find({lat_long: {$near : [37.441883,-122.143019] }}) 
+
+::
+	
+	// points within 6 degrees (~69 miles per degree)
+	db.places.find({lat_long: {$near : [37.322998,-122.032182], $maxDistance: 6 }}) 
 
 ::
 
-	db.places.find({lat_long: {$near : [37.322998,-122.032182], $maxDistance: 6 }}) // points within 6 degrees (~69 miles per degree)
-
-::
-
-	db.places.find({"lat_long" : {"$within" : {"$center" : [[37.322998,-122.032182], 5]}}}) // within a radius of a point
+	// within a radius of a point
+	db.places.find({"lat_long" : {"$within" : {"$center" : [[37.322998,-122.032182], 5]}}}) 
 
