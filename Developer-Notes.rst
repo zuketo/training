@@ -267,6 +267,13 @@ $size
 
 	db.places.find({ "tags" : { $size : 3 }})	
 
+$slice (return N elements)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+	db.places.find({}, { "tags" : { $slice : 3 }})	
+
 
 Updating Documents
 ------------------
@@ -345,13 +352,17 @@ Updating Arrays in Documents
 Dot notation for array elements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+::
+
+	db.places.update({ "name" : "Quickie Mart" }, { $set: { "tags.0" : "SLUSHEE" }})
+
 
 $push (add value to array)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $push: { tags : "Toothpaste" }})
+	db.places.update({ "name" : "Quickie Mart" }, { $push: { tags : "Toothpaste" }})
 
 
 $pushAll (add multiple values to array)
@@ -359,7 +370,7 @@ $pushAll (add multiple values to array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pushAll: { tags : ["Milk", "Eggs"] }})
+	db.places.update({ "name" : "Quickie Mart" }, { $pushAll: { tags : ["Milk", "Eggs"] }})
 	
 
 
@@ -368,7 +379,7 @@ $pull (remove value from array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pull: { tags : "Toothpaste" }})
+	db.places.update({ "name" : "Quickie Mart" }, { $pull: { tags : "Toothpaste" }})
 	
 
 $pullAll (remove all values from array)
@@ -376,7 +387,7 @@ $pullAll (remove all values from array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pullAll: { tags : ["Milk", "Eggs"] }})
+	db.places.update({ "name" : "Quickie Mart" }, { $pullAll: { tags : ["Milk", "Eggs"] }})
 	
 
 
@@ -385,11 +396,11 @@ $pop (remove element from beginning or end of array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pop: { tags : 1 }})
+	db.places.update({ "name" : "Quickie Mart" }, { $pop: { tags : 1 }})
 	
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $pop: { tags : -1 }})
+	db.places.update({ "name" : "Quickie Mart" }, { $pop: { tags : -1 }})
 	
 
 
@@ -398,11 +409,11 @@ $addToSet (add only if value is not already in array)
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Toothpaste" }})
+	db.places.update({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Toothpaste" }})
 
 ::
 
-	db.places.insert({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Candy" }})
+	db.places.update({ "name" : "Quickie Mart" }, { $addToSet: { tags : "Candy" }})
 
 
 Creating an Index
