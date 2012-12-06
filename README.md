@@ -1,4 +1,4 @@
-training
-========
+MongoDV Developer and Ops Training
+==================================
 
-MongoDB Training Materials
+MongoDB Training Notes and Materials
