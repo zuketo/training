@@ -164,7 +164,7 @@ $exists (field exists in document)
 
 ::
 
-	db.people.find({ "description" : { $exists : true }})	
+	db.people.find({ "age" : { $exists : true }})	
 
 
 $type (field type, string, integer, etc.)
