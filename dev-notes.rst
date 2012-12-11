@@ -210,23 +210,17 @@ Insert some sample data
 	db.parents.insert({ 
 		"name" : "Bart", 
 		"age" : 8, 
-		"parents" : { 
-			"father" : "Homer", 
-			"mother" : "Marge",
-			"residence" : "Springfield"
-		} })
-	db.parents.insert({ 
-		"name" : "Todd", 
-		"age" : 8, 
-		"parents" : { 
-			"father" : "Ned", 
-			"mother" : "Maude Flanders", 
-			"residence" : "Springfield"
-		} })
-
+		"hobbies" : [{ 
+			"name" : "Skateboarding", 
+			"skill_level" : 5},
+			{ 
+			"name" : "Homework", 
+			"skill_level" : 1}
+		] })
+	
 ::
 
-	db.parents.find({ "parents" : { $elemMatch : { "residence" : "Springfield", "father" : "Homer" } } })	
+	db.parents.find({ "hobbies" : { $elemMatch : { "name" : "Skateboarding", "skill_level" : 5 } } })	
 
 
 $where (avoid)
