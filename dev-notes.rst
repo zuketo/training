@@ -197,7 +197,7 @@ $and
 
 ::
 
-	db.people.find({ $or : [{ "name" : "Bart" }, { "age" : { $gt : 10 } }]})	
+	db.people.find({ $and : [{ "name" : "Bart" }, { "age" : { $gt : 10 } }]})	
 
 
 $nor (not or)
