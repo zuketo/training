@@ -192,6 +192,14 @@ $or
 
 	db.people.find({ $or : [{ "name" : "Bart" }, { "name" : "Lisa" }]})	
 
+$and 
+^^^^
+
+::
+
+	db.people.find({ $or : [{ "name" : "Bart" }, { "age" : { $gt : 10 } }]})	
+
+
 $nor (not or)
 ^^^^^^^^^^^^^
 
@@ -488,25 +496,25 @@ Geospatial index
 
 ::
 
-	db.locations.insert({name : "Palo Alto", lat_long : [37.441883,-122.143019]})
-	db.locations.insert({name : "Cupertino", lat_long : [37.322998,-122.032182]})
-	db.locations.insert({name : "San Jose", lat_long : [37.339386,-121.894955]})
-	db.locations.insert({name : "San Francisco", lat_long : [37.77493,-122.419415]})
-	db.locations.insert({name : "Los Angeles", lat_long : [34.052234,-118.243685]})
-	db.locations.insert({name : "Washington, DC", lat_long : [38.895112,-77.036366]})
+	db.locations.insert({name : "Palo Alto", lat_long : [-122.143019, 37.441883]})
+	db.locations.insert({name : "Cupertino", lat_long : [-122.032182, 37.322998]})
+	db.locations.insert({name : "San Jose", lat_long : [-121.894955, 37.339386]})
+	db.locations.insert({name : "San Francisco", lat_long : [-122.419415, 37.77493]})
+	db.locations.insert({name : "Los Angeles", lat_long : [-118.243685, 34.052234]})
+	db.locations.insert({name : "Washington, DC", lat_long : [-77.036366, 38.895112]})
 
 ::
 
 	// find closest locations
-	db.places.find({lat_long: {$near : [37.441883,-122.143019] }}) 
+	db.places.find({lat_long: {$near : [-122.143019, 37.441883] }}) 
 
 ::
 	
 	// points within 6 degrees (~69 miles per degree)
-	db.places.find({lat_long: {$near : [37.322998,-122.032182], $maxDistance: 6 }}) 
+	db.places.find({lat_long: {$near : [-122.032182, 37.322998], $maxDistance: 6 }}) 
 
 ::
 
 	// within a radius of a point
-	db.places.find({"lat_long" : {"$within" : {"$center" : [[37.322998,-122.032182], 5]}}}) 
+	db.places.find({"lat_long" : {"$within" : {"$center" : [[-122.032182, 37.322998], 5]}}}) 
 
