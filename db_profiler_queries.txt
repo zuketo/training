@@ -1,0 +1,68 @@
+// response time by operation type
+db.system.profile.aggregate( { $group : {
+_id :"$op",
+count:{$sum:1},
+"max response time":{$max:"$millis"}, "avg response time":{$avg:"$millis"}
+}});
+
+// slowest by namespace
+db.system.profile.aggregate( { $group : {
+_id :"$ns",
+count:{$sum:1},
+"max response time":{$max:"$millis"}, "avg response time":{$avg:"$millis"}
+}}, {$sort: {
+"max response time":-1} });
+
+// slowest by client
+db.system.profile.aggregate( {$group : {
+_id :"$client",
+count:{$sum:1},
+"max response time":{$max:"$millis"}, "avg response time":{$avg:"$millis"}
+}}, {$sort: {
+"max response time":-1} });
+
+// summary moved vs non-moved
+db.system.profile.aggregate( { $group : {
+_id :"$moved",
+count:{$sum:1},
+"max response time":{$max:"$millis"}, "avg response time":{$avg:"$millis"}
+}});
+
+// response time analysis
+db.system.profile.aggregate(
+	[	
+		{ $project :
+			{
+				"op" : "$op",
+				"millis" : "$millis",
+				"timeAcquiringMicrosrMS" : { $divide : [ "$lockStats.timeAcquiringMicros.r", 1000 ] },
+				"timeAcquiringMicroswMS" : { $divide : [ "$lockStats.timeAcquiringMicros.w", 1000 ] },
+				"timeLockedMicrosrMS" : { $divide : [ "$lockStats.timeLockedMicros.r", 1000 ] },
+				"timeLockedMicroswMS" : { $divide : [ "$lockStats.timeLockedMicros.w", 1000 ] }
+			}	
+		},
+		{ $project : 
+			{	
+				"op" : "$op",
+				"millis" : "$millis",
+				"total_time" : { $add : [ "$millis", "$timeAcquiringMicrosrMS", "$timeAcquiringMicroswMS" ] },
+				"timeAcquiringMicrosrMS" : "$timeAcquiringMicrosrMS",
+				"timeAcquiringMicroswMS" : "$timeAcquiringMicroswMS",
+				"timeLockedMicrosrMS" : "$timeLockedMicrosrMS",
+				"timeLockedMicroswMS" : "$timeLockedMicroswMS"
+			}
+		},
+		{ $group :
+			{ 	
+				_id : "$op", 
+				"average response time" : { $avg : "$millis" },
+				"average response time + acquire time": { $avg: "$total_time"},
+				"average acquire time reads" : { $avg : "$timeAcquiringMicrosrMS" },
+				"average acquire time writes" : { $avg : "$timeAcquiringMicroswMS" },
+				"average lock time reads" : { $avg : "$timeLockedMicrosrMS" },
+				"average lock time writes" : { $avg : "$timeLockedMicroswMS" }
+			}
+		}
+	]
+);
+
