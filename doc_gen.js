@@ -1,6 +1,4 @@
 /* 
-  docgen.js 
-
   Generate sample MongoDB documents based on a schemaTemplate.
 
   To run: "mongo doc_gen.js"
